@@ -1,4 +1,4 @@
-# 🛡️ PhishGuard — AI/ML Based Phishing Detection & Prevention System
+# 🛡️PhishAlert – AI-Powered Multi-Layer Phishing Detection & Prevention Platform
 
 > B.Tech Project | AI/ML Based Phishing Detection and Prevention System
 
