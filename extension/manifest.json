@@ -1,0 +1,21 @@
+{
+  "manifest_version": 3,
+  "name": "PhishGuard",
+  "version": "1.0",
+  "description": "AI Powered Phishing Detection",
+  "permissions": [
+    "activeTab",
+    "tabs",
+    "storage"
+  ],
+  "host_permissions": [
+    "http://127.0.0.1:5000/*",
+    "http://localhost:5000/*"
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "service_worker": "background.js"
+  }
+}
