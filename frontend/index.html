@@ -317,6 +317,179 @@ tr:hover td{background:rgba(255,255,255,0.02)}
   .charts-row{grid-template-columns:1fr}
   .intel-grid{grid-template-columns:1fr}
 }
+/* ================================
+   URL SECURITY SCANNER
+================================ */
+
+.url-security-card {
+    padding: 28px;
+}
+
+.security-section-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 28px;
+}
+
+.security-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    background: rgba(59, 130, 246, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 25px;
+}
+
+.security-section-header h2 {
+    margin: 0 0 5px;
+    color: white;
+    font-size: 22px;
+}
+
+.security-section-header p {
+    margin: 0;
+    color: var(--text3);
+    font-size: 14px;
+}
+
+.url-input-wrapper {
+    position: relative;
+    margin-top: 8px;
+}
+
+.url-prefix {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 17px;
+}
+
+.url-input-wrapper .url-input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 15px 15px 15px 45px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--bg2);
+    color: white;
+    font-size: 15px;
+    outline: none;
+    transition: 0.2s;
+}
+
+.url-input-wrapper .url-input:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.url-hint {
+    margin-top: 8px;
+    color: var(--text3);
+    font-size: 12px;
+}
+
+.sample-section {
+    margin-top: 22px;
+}
+
+.sample-title {
+    color: var(--text3);
+    font-size: 12px;
+    margin-bottom: 9px;
+}
+
+.samples {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.sample-chip {
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: 0.2s;
+    border: 1px solid var(--border);
+}
+
+.sample-chip:hover {
+    transform: translateY(-2px);
+}
+
+.danger-chip {
+    color: #ef4444;
+    background: rgba(239, 68, 68, 0.08);
+}
+
+.warning-chip {
+    color: #f59e0b;
+    background: rgba(245, 158, 11, 0.08);
+}
+
+.safe-chip {
+    color: #22c55e;
+    background: rgba(34, 197, 94, 0.08);
+}
+
+.url-analyze-btn {
+    width: 100%;
+    margin-top: 22px;
+    padding: 14px;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+/* Scanning state */
+
+.scanning-anim {
+    display: none;
+    align-items: center;
+    gap: 14px;
+    margin-top: 20px;
+    padding: 16px;
+    border-radius: 10px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+}
+
+.scanning-anim span {
+    display: block;
+    margin-top: 4px;
+    color: var(--text3);
+    font-size: 12px;
+}
+
+/* Mobile */
+
+@media (max-width: 600px) {
+
+    .url-security-card {
+        padding: 20px;
+    }
+
+    .security-section-header {
+        align-items: flex-start;
+    }
+
+    .security-section-header h2 {
+        font-size: 18px;
+    }
+
+    .samples {
+        gap: 6px;
+    }
+
+    .sample-chip {
+        font-size: 11px;
+    }
+}
 </style>
 </head>
 <body>
@@ -579,25 +752,107 @@ tr:hover td{background:rgba(255,255,255,0.02)}
         </div>
 
         <!-- URL scan -->
-        <div id="urlScan">
-          <div class="input-card">
-            <label>Enter URL to Analyze</label>
-            <input class="url-input" type="text" id="urlInput" placeholder="https://example.com/verify-account" onkeydown="if(event.key==='Enter')doScan('url')"/>
-            <div style="margin-top:10px">
-              <div style="font-size:12px;color:var(--text3);margin-bottom:6px">Try a sample:</div>
-              <div class="samples">
-                <div class="sample-chip" onclick="setSample('url','http://paypa1-secure-login.xyz/verify')">Fake PayPal</div>
-                <div class="sample-chip" onclick="setSample('url','https://192.168.1.1/bank/login')">IP Address</div>
-                <div class="sample-chip" onclick="setSample('url','https://bit.ly/3fakeurl')">URL Shortener</div>
-                <div class="sample-chip" onclick="setSample('url','https://amazon-account-verify-now.tk')">Brand Abuse</div>
-                <div class="sample-chip" onclick="setSample('url','https://google.com')">Legitimate</div>
-                <div class="sample-chip" onclick="setSample('url','https://github.com')">GitHub</div>
-              </div>
-            </div>
-            <button class="scan-btn" id="urlScanBtn" onclick="doScan('url')">🔍 Analyze URL</button>
-          </div>
-          <div class="scanning-anim" id="urlScanning"><div class="spinner"></div><span>Analyzing URL for phishing indicators...</span></div>
-          <div id="urlResult"></div>
+        <!-- URL Security Scan -->
+<div id="urlScan">
+
+  <div class="input-card url-security-card">
+
+    <div class="security-section-header">
+      <div class="security-icon">🛡️</div>
+
+      <div>
+        <h2>URL Security Scanner</h2>
+        <p>Check websites and links for phishing and malicious activity.</p>
+      </div>
+    </div>
+
+    <label for="urlInput">Website or URL</label>
+
+    <div class="url-input-wrapper">
+      <span class="url-prefix">🔗</span>
+
+      <input
+        class="url-input"
+        type="text"
+        id="urlInput"
+        placeholder="https://example.com/verify-account"
+        onkeydown="if(event.key==='Enter')doScan('url')"
+      />
+    </div>
+
+    <div class="url-hint">
+      🔒 Enter the complete URL you want to check
+    </div>
+
+    <!-- Sample URLs -->
+    <div class="sample-section">
+
+      <div class="sample-title">
+        Try a sample URL
+      </div>
+
+      <div class="samples">
+
+        <div class="sample-chip danger-chip"
+             onclick="setSample('url','http://paypa1-secure-login.xyz/verify')">
+          🔴 Fake PayPal
+        </div>
+
+        <div class="sample-chip warning-chip"
+             onclick="setSample('url','https://192.168.1.1/bank/login')">
+          🟠 IP Address
+        </div>
+
+        <div class="sample-chip warning-chip"
+             onclick="setSample('url','https://bit.ly/3fakeurl')">
+          🟠 URL Shortener
+        </div>
+
+        <div class="sample-chip danger-chip"
+             onclick="setSample('url','https://amazon-account-verify-now.tk')">
+          🔴 Brand Abuse
+        </div>
+
+        <div class="sample-chip safe-chip"
+             onclick="setSample('url','https://google.com')">
+          🟢 Google
+        </div>
+
+        <div class="sample-chip safe-chip"
+             onclick="setSample('url','https://github.com')">
+          🟢 GitHub
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Scan Button -->
+    <button
+      class="scan-btn url-analyze-btn"
+      id="urlScanBtn"
+      onclick="doScan('url')">
+
+      🔍 Analyze URL
+
+    </button>
+
+  </div>
+
+  <!-- Scanning Animation -->
+  <div class="scanning-anim" id="urlScanning">
+
+    <div class="spinner"></div>
+
+    <div>
+      <strong>Analyzing URL...</strong>
+      <span>Checking phishing indicators and security signals</span>
+    </div>
+
+  </div>
+
+  <!-- Result -->
+  <div id="urlResult"></div>
         </div>
 
         <!-- Email scan -->
