@@ -162,20 +162,112 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--tex
 .refresh-btn:hover{border-color:var(--accent);color:var(--accent2)}
 
 /* ── STATS CARDS ── */
-.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
-.stat-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;transition:.2s;position:relative;overflow:hidden}
-.stat-card::before{content:'';position:absolute;top:0;right:0;width:60px;height:60px;border-radius:50%;opacity:0.1;transform:translate(30%,-30%)}
-.stat-card.blue::before{background:var(--accent)}
-.stat-card.red::before{background:var(--red)}
-.stat-card.green::before{background:var(--green)}
-.stat-card.orange::before{background:var(--orange)}
-.stat-card:hover{border-color:var(--border-hover);transform:translateY(-2px)}
-.stat-icon{font-size:22px;margin-bottom:14px}
-.stat-value{font-size:30px;font-weight:700;letter-spacing:-1px;margin-bottom:4px}
-.stat-label{font-size:13px;color:var(--text2)}
-.stat-badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600;margin-top:8px}
-.stat-badge.up{background:rgba(16,185,129,0.1);color:var(--green)}
-.stat-badge.down{background:rgba(239,68,68,0.1);color:var(--red)}
+/* ── ENHANCED DASHBOARD STATS CARDS ── */
+
+.stats-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:16px;
+    margin-bottom:24px;
+}
+
+.stat-card{
+    background:linear-gradient(145deg,var(--card),rgba(59,130,246,0.04));
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:22px;
+    transition:all .25s ease;
+    position:relative;
+    overflow:hidden;
+}
+
+/* Decorative glow */
+.stat-card::before{
+    content:'';
+    position:absolute;
+    top:-25px;
+    right:-25px;
+    width:90px;
+    height:90px;
+    border-radius:50%;
+    opacity:0.12;
+    transition:.3s ease;
+}
+
+.stat-card.blue::before{
+    background:var(--accent);
+}
+
+.stat-card.red::before{
+    background:var(--red);
+}
+
+.stat-card.green::before{
+    background:var(--green);
+}
+
+.stat-card.orange::before{
+    background:var(--orange);
+}
+
+/* Hover effect */
+.stat-card:hover{
+    transform:translateY(-5px);
+    border-color:var(--accent);
+    box-shadow:0 10px 30px rgba(0,0,0,0.25);
+}
+
+.stat-card:hover::before{
+    transform:scale(1.4);
+    opacity:0.18;
+}
+
+/* Icon */
+.stat-icon{
+    width:44px;
+    height:44px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:12px;
+    font-size:22px;
+    margin-bottom:15px;
+    background:rgba(59,130,246,0.12);
+}
+
+/* Number */
+.stat-value{
+    font-size:30px;
+    font-weight:700;
+    letter-spacing:-1px;
+    margin-bottom:5px;
+}
+
+/* Label */
+.stat-label{
+    font-size:13px;
+    color:var(--text2);
+}
+
+/* Status badge */
+.stat-badge{
+    display:inline-block;
+    padding:3px 9px;
+    border-radius:20px;
+    font-size:11px;
+    font-weight:600;
+    margin-top:9px;
+}
+
+.stat-badge.up{
+    background:rgba(16,185,129,0.1);
+    color:var(--green);
+}
+
+.stat-badge.down{
+    background:rgba(239,68,68,0.1);
+    color:var(--red);
+}
 
 /* ── CHARTS AREA ── */
 .charts-row{display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-bottom:24px}
