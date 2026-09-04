@@ -227,6 +227,42 @@ tr:hover td{background:rgba(255,255,255,0.02)}
 .empty-state{text-align:center;padding:48px;color:var(--text3)}
 .empty-state .e-icon{font-size:40px;margin-bottom:12px;opacity:0.5}
 
+/* ── DASHBOARD EXTRAS (UI additions — no JS/backend logic touched) ── */
+.db-banner{position:relative;overflow:hidden;display:flex;align-items:center;justify-content:space-between;gap:20px;background:linear-gradient(120deg,rgba(59,130,246,0.12),rgba(6,182,212,0.06));border:1px solid rgba(59,130,246,0.2);border-radius:16px;padding:22px 26px;margin-bottom:20px}
+.db-banner::before{content:'';position:absolute;top:-60%;right:-10%;width:280px;height:280px;background:radial-gradient(circle,rgba(59,130,246,0.18),transparent 70%);pointer-events:none}
+.db-banner-left{display:flex;align-items:center;gap:16px;position:relative;z-index:1}
+.db-banner-icon{width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--cyan));display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;box-shadow:0 0 20px rgba(59,130,246,0.35)}
+.db-banner-title{font-size:16px;font-weight:700}
+.db-banner-sub{font-size:13px;color:var(--text2);margin-top:2px}
+.db-status-pill{display:inline-flex;align-items:center;gap:7px;padding:7px 14px;border-radius:20px;background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.3);color:#34d399;font-size:12.5px;font-weight:600;position:relative;z-index:1;white-space:nowrap}
+.db-status-dot{width:7px;height:7px;border-radius:50%;background:#34d399;box-shadow:0 0 8px #34d399;animation:dbPulse 1.8s ease-in-out infinite}
+@keyframes dbPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(0.8)}}
+
+.quick-actions{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}
+.qa-btn{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 16px;cursor:pointer;transition:.2s;text-align:left;font-family:inherit}
+.qa-btn:hover{border-color:var(--border-hover);transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,0.25)}
+.qa-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.qa-icon.blue{background:rgba(59,130,246,0.15)}
+.qa-icon.purple{background:rgba(139,92,246,0.15)}
+.qa-icon.cyan{background:rgba(6,182,212,0.15)}
+.qa-icon.orange{background:rgba(245,158,11,0.15)}
+.qa-label{font-size:13px;font-weight:600;color:var(--text)}
+.qa-sub{font-size:11px;color:var(--text3);margin-top:1px}
+
+.db-glow:hover{box-shadow:0 0 0 1px rgba(99,179,237,0.15),0 10px 26px rgba(0,0,0,0.3)}
+
+.status-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:24px}
+.status-item{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 16px}
+.status-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.status-dot.online{background:var(--green);box-shadow:0 0 8px var(--green)}
+.status-text{flex:1}
+.status-name{font-size:12.5px;font-weight:600}
+.status-state{font-size:11px;color:var(--text3);margin-top:1px}
+
+.dash-footer-row{display:grid;grid-template-columns:1.3fr 1fr;gap:16px}
+@media (max-width:1100px){.quick-actions{grid-template-columns:repeat(2,1fr)}.status-strip{grid-template-columns:1fr}.dash-footer-row{grid-template-columns:1fr}.db-banner{flex-direction:column;align-items:flex-start}}
+
+
 /* ── DETECTION PAGE ── */
 .detect-wrap{max-width:720px;margin:0 auto}
 .tab-bar{display:flex;background:var(--bg3);border-radius:10px;padding:4px;margin-bottom:28px;gap:4px}
@@ -499,26 +535,58 @@ tr:hover td{background:rgba(255,255,255,0.02)}
         </div>
       </div>
 
+      <!-- Welcome / status banner (UI only) -->
+      <div class="db-banner">
+        <div class="db-banner-left">
+          <div class="db-banner-icon">🛡️</div>
+          <div>
+            <div class="db-banner-title">Your security is being actively monitored</div>
+            <div class="db-banner-sub">Detection engine is running — scan a URL, email or QR code anytime from the quick actions below.</div>
+          </div>
+        </div>
+        <div class="db-status-pill"><span class="db-status-dot"></span>Protection Active</div>
+      </div>
+
+      <!-- Quick actions (UI only — reuse existing switchTab()) -->
+      <div class="quick-actions">
+        <button class="qa-btn" onclick="switchTab('detection')">
+          <div class="qa-icon blue">🔗</div>
+          <div><div class="qa-label">Scan a URL</div><div class="qa-sub">Check a suspicious link</div></div>
+        </button>
+        <button class="qa-btn" onclick="switchTab('detection')">
+          <div class="qa-icon purple">📧</div>
+          <div><div class="qa-label">Scan an Email</div><div class="qa-sub">Paste email content</div></div>
+        </button>
+        <button class="qa-btn" onclick="switchTab('qr')">
+          <div class="qa-icon cyan">📷</div>
+          <div><div class="qa-label">Scan a QR Code</div><div class="qa-sub">Upload a QR image</div></div>
+        </button>
+        <button class="qa-btn" onclick="switchTab('mail')">
+          <div class="qa-icon orange">📩</div>
+          <div><div class="qa-label">Mail Shield</div><div class="qa-sub">Scan your inbox</div></div>
+        </button>
+      </div>
+
       <div class="stats-grid">
-        <div class="stat-card blue">
+        <div class="stat-card blue db-glow">
           <div class="stat-icon">🔍</div>
           <div class="stat-value" id="statTotal">0</div>
           <div class="stat-label">Total Scans</div>
           <div class="stat-badge up" id="statTotalBadge">All time</div>
         </div>
-        <div class="stat-card red">
+        <div class="stat-card red db-glow">
           <div class="stat-icon">⚠️</div>
           <div class="stat-value" id="statPhishing">0</div>
           <div class="stat-label">Phishing Detected</div>
           <div class="stat-badge" id="statThreatRate" style="background:rgba(239,68,68,0.1);color:#f87171">0% of scans</div>
         </div>
-        <div class="stat-card green">
+        <div class="stat-card green db-glow">
           <div class="stat-icon">✅</div>
           <div class="stat-value" id="statSafe">0</div>
           <div class="stat-label">Safe Results</div>
           <div class="stat-badge up">Clean</div>
         </div>
-        <div class="stat-card orange">
+        <div class="stat-card orange db-glow">
           <div class="stat-icon">⏱️</div>
           <div class="stat-value" id="statRisk">0</div>
           <div class="stat-label">Avg Risk Score</div>
@@ -527,7 +595,7 @@ tr:hover td{background:rgba(255,255,255,0.02)}
       </div>
 
       <div class="charts-row">
-        <div class="chart-card">
+        <div class="chart-card db-glow">
           <div class="chart-title">📈 Threat Activity <span style="color:var(--text3);font-size:12px;font-weight:400">— last 7 days</span></div>
           <div class="chart-area" id="activityChart"><div class="no-data">No activity yet</div></div>
           <div class="chart-legend">
@@ -536,7 +604,7 @@ tr:hover td{background:rgba(255,255,255,0.02)}
             <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div>Safe</div>
           </div>
         </div>
-        <div class="chart-card">
+        <div class="chart-card db-glow">
           <div class="chart-title">🎯 Risk Distribution</div>
           <div class="donut-wrap">
             <svg class="donut-svg" viewBox="0 0 120 120" id="donutSvg">
@@ -560,6 +628,32 @@ tr:hover td{background:rgba(255,255,255,0.02)}
         </div>
         <div id="recentScansTable">
           <div class="empty-state"><div class="e-icon">🔍</div><div>No scan data yet. Run your first analysis.</div><br><button class="btn-sm" onclick="switchTab('detection')">Go to Detection →</button></div>
+        </div>
+      </div>
+
+      <!-- System status strip (UI only, static indicators) -->
+      <div class="status-strip">
+        <div class="status-item db-glow">
+          <div class="status-dot online"></div>
+          <div class="status-text"><div class="status-name">Detection Engine</div><div class="status-state">Operational</div></div>
+        </div>
+        <div class="status-item db-glow">
+          <div class="status-dot online"></div>
+          <div class="status-text"><div class="status-name">Threat Database</div><div class="status-state">Synced</div></div>
+        </div>
+        <div class="status-item db-glow">
+          <div class="status-dot online"></div>
+          <div class="status-text"><div class="status-name">Mail Shield</div><div class="status-state">Connected</div></div>
+        </div>
+      </div>
+
+      <!-- Security tips (UI only, reuses existing .tip-card styles) -->
+      <div class="tip-card">
+        <h3>💡 Stay Protected</h3>
+        <div class="tip-list">
+          <div class="tip-item"><div class="tip-num">1</div>Always hover over links to preview the destination URL before clicking.</div>
+          <div class="tip-item"><div class="tip-num">2</div>Legitimate companies rarely ask you to "verify" your account urgently by email.</div>
+          <div class="tip-item"><div class="tip-num">3</div>Enable Mail Shield to automatically screen your inbox for phishing attempts.</div>
         </div>
       </div>
     </div>
